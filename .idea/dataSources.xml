@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
     <data-source source="LOCAL" name="db" uuid="fd092a1f-7a4d-479f-92bd-04ea4a8b6fc8">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>4d2cf3b5-3fda-4281-b000-fff47e9bf13b</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Programms\TaskTracker_DjangoBackend\taskplanner\db.sqlite3</jdbc-url>

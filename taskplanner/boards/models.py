@@ -7,6 +7,8 @@ class BoardModel(models.Model):
     title = models.CharField(max_length=256)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     permission = models.CharField(max_length=32)
+    progress = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+    deadline = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return self.title
