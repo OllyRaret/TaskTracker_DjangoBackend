@@ -9,6 +9,8 @@ class BoardModel(models.Model):
     permission = models.CharField(max_length=32)
     progress = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
     deadline = models.DateField(null=True, blank=True)
+    priority = models.CharField(max_length=10)
+    description = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.title
