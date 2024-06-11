@@ -29,9 +29,7 @@ INSTALLED_APPS = [
     'tasks',
     'users',
     'boards',
-    'columns',
     'participation',
-    'tags',
     'rest_framework',
     'rest_framework_simplejwt',
 ]
@@ -102,9 +100,9 @@ AUTH_USER_MODEL = 'users.UserModel'
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-Ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 

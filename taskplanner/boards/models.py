@@ -1,16 +1,28 @@
 from django.db import models
-from django.contrib.auth import get_user_model
+from django.conf import settings
 
-User = get_user_model()
 
 class BoardModel(models.Model):
-    title = models.CharField(max_length=256)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    permission = models.CharField(max_length=32)
-    progress = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
-    deadline = models.DateField(null=True, blank=True)
-    priority = models.CharField(max_length=10)
-    description = models.TextField(blank=True, null=True)
+    title = models.CharField(max_length=256, verbose_name='Название')
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='authored_boards',
+        verbose_name='Автор'
+    )
+    description = models.TextField(blank=True, null=True, verbose_name='Описание')
 
     def __str__(self):
         return self.title
+
+    @property
+    def progress(self):
+        total_tasks = self.tasks.count()
+        if total_tasks == 0:
+            return 0
+        completed_tasks = self.tasks.filter(status='completed').count()
+        return (completed_tasks / total_tasks) * 100
+
+    class Meta:
+        verbose_name = 'Доска проекта'
+        verbose_name_plural = 'Доски проектов'
