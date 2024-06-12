@@ -54,7 +54,7 @@ class TaskViewSet(ModelViewSet):
             raise PermissionDenied(
                 "Вы не являетесь участником данного проекта."
             )
-        serializer.save(board=board)
+        serializer.save(on_board=board)
 
     def perform_update(self, serializer):
         board = get_object_or_404(BoardModel, pk=self.kwargs['board_pk'])
@@ -66,4 +66,4 @@ class TaskViewSet(ModelViewSet):
             raise PermissionDenied(
                 "Вы не являетесь участником данного проекта."
             )
-        serializer.save(board=board)
+        serializer.save(on_board=board)

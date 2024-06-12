@@ -45,7 +45,7 @@ class AddParticipantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ParticipationModel
-        fields = ['participant_id', 'board', 'can_edit']
+        fields = ['id', 'participant_id', 'board', 'can_edit']
 
     @atomic
     def create(self, validated_data):
