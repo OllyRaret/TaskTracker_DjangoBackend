@@ -10,7 +10,11 @@ class BoardModel(models.Model):
         related_name='authored_boards',
         verbose_name='Автор'
     )
-    description = models.TextField(blank=True, null=True, verbose_name='Описание')
+    description = models.TextField(
+        blank=True,
+        null=True,
+        verbose_name='Описание'
+    )
 
     def __str__(self):
         return self.title

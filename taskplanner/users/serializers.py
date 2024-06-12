@@ -6,6 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 User = get_user_model()
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -21,6 +22,7 @@ class UserSerializer(serializers.ModelSerializer):
         )
         return user
 
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -29,12 +31,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['username'] = user.username
         return token
 
+
 class ParticipationSerializer(serializers.ModelSerializer):
     participant = UserSerializer()
 
     class Meta:
         model = ParticipationModel
         fields = ['id', 'participant', 'board', 'can_edit']
+
 
 class AddParticipantSerializer(serializers.ModelSerializer):
     participant_id = serializers.IntegerField()
@@ -47,8 +51,12 @@ class AddParticipantSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         participant_id = validated_data.pop('participant_id')
         participant = get_user_model().objects.get(id=participant_id)
-        participation = ParticipationModel.objects.create(participant=participant, **validated_data)
+        participation = ParticipationModel.objects.create(
+            participant=participant,
+            **validated_data
+        )
         return participation
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:

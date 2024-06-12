@@ -9,10 +9,14 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .models import ParticipationModel
+from participation.models import ParticipationModel
 from .models import UserModel
 from .serializers import ParticipationSerializer, AddParticipantSerializer
-from .serializers import UserSerializer, MyTokenObtainPairSerializer, ProfileSerializer
+from .serializers import (
+    UserSerializer,
+    MyTokenObtainPairSerializer,
+    ProfileSerializer
+)
 
 
 class RegisterView(generics.CreateAPIView):
@@ -20,8 +24,10 @@ class RegisterView(generics.CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = UserSerializer
 
+
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
 
 class TeamViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -42,17 +48,26 @@ class TeamViewSet(viewsets.ViewSet):
 
     def destroy(self, request, pk=None, project_pk=None):
         board = get_object_or_404(BoardModel, pk=project_pk)
-        participation = get_object_or_404(ParticipationModel, pk=pk, board=board)
+        participation = get_object_or_404(
+            ParticipationModel,
+            pk=pk,
+            board=board
+        )
         participation.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def partial_update(self, request, pk=None, project_pk=None):
         board = get_object_or_404(BoardModel, pk=project_pk)
-        participation = get_object_or_404(ParticipationModel, pk=pk, board=board)
+        participation = get_object_or_404(
+            ParticipationModel,
+            pk=pk,
+            board=board
+        )
         participation.can_edit = True
         participation.save()
         serializer = ParticipationSerializer(participation)
         return Response(serializer.data)
+
 
 class ProfileViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -62,7 +77,11 @@ class ProfileViewSet(viewsets.ViewSet):
         return Response(serializer.data)
 
     def partial_update(self, request):
-        serializer = ProfileSerializer(request.user, data=request.data, partial=True)
+        serializer = ProfileSerializer(
+            request.user,
+            data=request.data,
+            partial=True
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

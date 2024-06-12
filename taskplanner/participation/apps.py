@@ -4,4 +4,4 @@ from django.apps import AppConfig
 class ParticipationConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'participation'
-    verbose_name='Участия в проектах'
+    verbose_name = 'Участия в проектах'

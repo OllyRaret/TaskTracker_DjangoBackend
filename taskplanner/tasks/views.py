@@ -1,9 +1,14 @@
 from django.db.models import Q
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import ModelViewSet
 
+from boards.models import BoardModel
+from participation.models import ParticipationModel
 from .models import TaskModel
-from .serializers import TaskSerializer, TaskShortSerializer
+from .serializers import TaskSerializer
+from .serializers import TaskShortSerializer
 
 
 class TaskListView(ModelViewSet):
@@ -17,6 +22,7 @@ class TaskListView(ModelViewSet):
             Q(assignee=user)
         ).exclude(status='completed').distinct()
 
+
 class TaskCalendarView(ModelViewSet):
     queryset = TaskModel.objects.all()
     permission_classes = [IsAuthenticated]
@@ -28,6 +34,7 @@ class TaskCalendarView(ModelViewSet):
             Q(assignee=user)
         ).distinct()
 
+
 class TaskViewSet(ModelViewSet):
     queryset = TaskModel.objects.all()
     permission_classes = [IsAuthenticated]
@@ -38,5 +45,25 @@ class TaskViewSet(ModelViewSet):
         return TaskModel.objects.filter(on_board__id=board_id)
 
     def perform_create(self, serializer):
-        board_id = self.kwargs['board_pk']
-        serializer.save(on_board_id=board_id)
+        board = get_object_or_404(BoardModel, pk=self.kwargs['board_pk'])
+        user = self.request.user
+        if not ParticipationModel.objects.filter(
+                board=board,
+                participant=user
+        ).exists():
+            raise PermissionDenied(
+                "Вы не являетесь участником данного проекта."
+            )
+        serializer.save(board=board)
+
+    def perform_update(self, serializer):
+        board = get_object_or_404(BoardModel, pk=self.kwargs['board_pk'])
+        user = self.request.user
+        if not ParticipationModel.objects.filter(
+                board=board,
+                participant=user
+        ).exists():
+            raise PermissionDenied(
+                "Вы не являетесь участником данного проекта."
+            )
+        serializer.save(board=board)
