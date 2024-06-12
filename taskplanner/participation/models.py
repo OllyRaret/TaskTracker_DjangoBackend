@@ -27,5 +27,9 @@ class ParticipationModel(models.Model):
         verbose_name_plural = 'Участия в проектах'
 
         constraints = [
-            models.UniqueConstraint(fields=['participant', 'board'], name='Уникальность участия в проекте')
+            models.UniqueConstraint(
+                fields=['participant', 'board'],
+                name='Уникальность участия в проекте',
+                violation_error_message='Этот пользователь уже участвует в проекте'
+            )
         ]
