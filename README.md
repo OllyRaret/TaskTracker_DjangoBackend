@@ -7,7 +7,7 @@ Task Planner - это веб-приложение для управления з
 1. Клонируйте репозиторий:
 
     ```bash
-    git clone https://github.com/your_username/task-planner.git
+    git clone https://github.com/OllyRaret/TaskTracker_DjangoBackend.git
     ```
 
 2. Создайте и активируйте виртуальное окружение:
