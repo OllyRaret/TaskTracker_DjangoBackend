@@ -9,7 +9,7 @@ class BoardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BoardModel
-        fields = ['id', 'title', 'progress']
+        fields = ['id', 'title', 'progress', 'description']
 
     @atomic
     def create(self, validated_data):
