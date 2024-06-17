@@ -70,15 +70,22 @@ class TeamViewSet(viewsets.ViewSet):
 
 
 class ProfileViewSet(viewsets.ViewSet):
+    queryset = UserModel.objects.all()
     permission_classes = [IsAuthenticated]
+    serializer_class = ProfileSerializer
+
+    def get_object(self):
+        return self.request.user
 
     def retrieve(self, request):
-        serializer = ProfileSerializer(request.user)
+        instance = self.get_object()
+        serializer = ProfileSerializer(instance)
         return Response(serializer.data)
 
     def partial_update(self, request):
+        instance = self.get_object()
         serializer = ProfileSerializer(
-            request.user,
+            instance,
             data=request.data,
             partial=True
         )

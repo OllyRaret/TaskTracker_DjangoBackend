@@ -22,7 +22,6 @@ router.register(
     TeamViewSet,
     basename='team'
 )
-router.register('settings', ProfileViewSet, basename='settings')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,5 +31,18 @@ urlpatterns = [
         'api/login/',
         MyTokenObtainPairView.as_view(),
         name='token_obtain_pair'
+    ),
+    path(
+        'api/settings/',
+        ProfileViewSet.as_view(
+            {'get': 'retrieve',
+             'patch': 'partial_update'}
+        ),
+        name='profile'
+    ),
+    path(
+        'api/settings/logout/',
+        ProfileViewSet.as_view({'post': 'logout'}),
+        name='logout'
     ),
 ]
