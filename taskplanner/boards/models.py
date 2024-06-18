@@ -25,7 +25,7 @@ class BoardModel(models.Model):
         if total_tasks == 0:
             return 0
         completed_tasks = self.tasks.filter(status='completed').count()
-        return (completed_tasks / total_tasks) * 100
+        return round((completed_tasks / total_tasks) * 100, 2)
 
     class Meta:
         verbose_name = 'Доска проекта'

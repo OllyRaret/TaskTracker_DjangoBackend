@@ -38,6 +38,7 @@ urlpatterns = [
             {'get': 'retrieve',
              'patch': 'partial_update'}
         ),
+
         name='profile'
     ),
     path(

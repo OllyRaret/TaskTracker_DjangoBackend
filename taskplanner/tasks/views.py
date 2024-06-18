@@ -42,7 +42,11 @@ class TaskViewSet(ModelViewSet):
 
     def get_queryset(self):
         board_id = self.kwargs['board_pk']
-        return TaskModel.objects.filter(on_board__id=board_id)
+        return (
+            TaskModel.objects
+            .filter(on_board__id=board_id)
+            .order_by('priority')
+        )
 
     def perform_create(self, serializer):
         board = get_object_or_404(BoardModel, pk=self.kwargs['board_pk'])
