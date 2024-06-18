@@ -1,4 +1,4 @@
-from django.db.models import Q
+from django.db.models import Q, Case, When, Value, IntegerField
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -45,7 +45,15 @@ class TaskViewSet(ModelViewSet):
         return (
             TaskModel.objects
             .filter(on_board__id=board_id)
-            .order_by('priority')
+            .annotate(
+                priority_order=Case(
+                    When(priority='high', then=Value(1)),
+                    When(priority='medium', then=Value(2)),
+                    When(priority='low', then=Value(3)),
+                    output_field=IntegerField(),
+                )
+            )
+            .order_by('priority_order')
         )
 
     def perform_create(self, serializer):
