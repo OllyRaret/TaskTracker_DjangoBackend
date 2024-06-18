@@ -22,11 +22,11 @@ class TaskSerializer(serializers.ModelSerializer):
                   'assignee', 'status']
 
     def validate_assignee(self, value):
-        board = self.initial_data.get('board')
+        board = self.instance.on_board
         user = self.context['request'].user
 
         if not ParticipationModel.objects.filter(
-                board_id=board,
+                board=board,
                 participant=value
         ).exists() and value != user:
             raise serializers.ValidationError(
