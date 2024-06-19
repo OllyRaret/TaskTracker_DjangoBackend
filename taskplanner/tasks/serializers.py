@@ -18,11 +18,11 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskModel
         fields = ['id', 'title', 'description',
-                  'deadline', 'priority', 'on_board',
+                  'deadline', 'priority',
                   'assignee', 'status']
 
     def validate_assignee(self, value):
-        board = self.instance.on_board
+        board = self.context['view'].kwargs['board_pk']
         user = self.context['request'].user
 
         if not ParticipationModel.objects.filter(
